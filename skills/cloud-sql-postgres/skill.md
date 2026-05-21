@@ -49,31 +49,68 @@ All `invoke` output is JSON on stdout. Errors go to stderr with a non-zero exit.
 
 Pick the closest-matching tool, then run `describe-tool` for its signature.
 
-**Schema discovery** — `list_schemas`, `list_tables`, `list_views`,
-`list_indexes`, `list_sequences`, `list_triggers`, `list_stored_procedure`,
-`list_databases`, `list_roles`, `list_tablespaces`, `list_publication_tables`,
-`database_overview`.
+### Schema discovery
 
-**Ad-hoc SQL** — `execute_sql` (single statement),
-`get_query_plan` (EXPLAIN without executing).
+- database_overview
+- list_databases
+- list_schemas
+- list_tables
+- list_views
+- list_indexes
+- list_sequences
+- list_triggers
+- list_stored_procedure
+- list_roles
+- list_tablespaces
+- list_publication_tables
 
-**Performance & stats** — `list_query_stats`, `get_query_metrics`,
-`list_table_stats`, `list_database_stats`, `get_column_cardinality`,
-`list_top_bloated_tables`, `list_invalid_indexes`,
-`list_autovacuum_configurations`, `list_memory_configurations`,
-`list_pg_settings`, `get_system_metrics`.
+### Ad-hoc SQL
 
-**Live activity & locking** — `list_active_queries`, `long_running_transactions`,
-`list_locks`.
+- execute_sql
+- get_query_plan
 
-**Replication** — `replication_stats`, `list_replication_slots`.
+### Performance & stats
 
-**Extensions** — `list_available_extensions`, `list_installed_extensions`.
+- list_query_stats
+- get_query_metrics
+- list_table_stats
+- list_database_stats
+- get_column_cardinality
+- list_top_bloated_tables
+- list_invalid_indexes
+- list_autovacuum_configurations
+- list_memory_configurations
+- list_pg_settings
+- get_system_metrics
 
-**Instance lifecycle (Cloud SQL Admin API)** — `list_instances`, `get_instance`,
-`create_instance`, `clone_instance`, `create_database`, `create_user`,
-`create_backup`, `restore_backup`, `postgres_upgrade_precheck`,
-`wait_for_operation`.
+### Live activity & locking
+
+- list_active_queries
+- long_running_transactions
+- list_locks
+
+### Replication
+
+- replication_stats
+- list_replication_slots
+
+### Extensions
+
+- list_available_extensions
+- list_installed_extensions
+
+### Instance lifecycle (Cloud SQL Admin API)
+
+- list_instances
+- get_instance
+- create_instance
+- clone_instance
+- create_database
+- create_user
+- create_backup
+- restore_backup
+- postgres_upgrade_precheck
+- wait_for_operation
 
 ## Conventions
 
@@ -85,5 +122,9 @@ Pick the closest-matching tool, then run `describe-tool` for its signature.
   `restore_backup`, `create_backup`) return an Operation object. Follow up with
   `wait_for_operation` before doing anything that depends on the result.
   Use a polling multiplier of 4 for `clone_instance`.
+- **Some admin tools require client OAuth**, which `toolbox invoke` does not
+  currently support. If a call fails with `client authorization is not
+  supported`, tell the user that tool must be run from the MCP server rather
+  than the CLI, and suggest the closest CLI-callable alternative.
 - **Tool not found** → re-run `list-tools` to confirm the name; do not guess.
 - **Connection error** → surface the missing env var rather than retrying.
