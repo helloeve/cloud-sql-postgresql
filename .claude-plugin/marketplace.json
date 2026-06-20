@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "cloud-sql-postgresql",
-      "source": "./"
+      "source": "./plugin"
     }
   ]
 }
